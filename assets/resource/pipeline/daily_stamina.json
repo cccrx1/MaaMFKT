@@ -1,0 +1,677 @@
+{
+    "DailyStaminaStart": {
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaOpenExpeditionFromMain",
+            "[JumpBack]CommonEnsureMain"
+        ],
+        "timeout": 10000
+    },
+    "DailyStaminaOpenExpeditionFromMain": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "CommonMainReady"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    571,
+                    912
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 700,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaPresetRouteStart"
+        ]
+    },
+    "DailyStaminaOpenTargetStage": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStageListTarget"
+                ],
+                "box_index": 0
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true,
+                "target_offset": [
+                    120,
+                    0,
+                    0,
+                    0
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 600,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaStageDetailInitialDecision",
+            "DailyStaminaScanStageListUp"
+        ],
+        "max_hit": 4
+    },
+    "DailyStaminaScanStageListDown": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStageListAnySelectable"
+                ]
+            }
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    360,
+                    760
+                ],
+                "end": [
+                    360,
+                    360
+                ],
+                "duration": 1500
+            }
+        },
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaOpenTargetStage",
+            "DailyStaminaScanStageListUp"
+        ],
+        "max_hit": 3
+    },
+    "DailyStaminaScanStageListUp": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStageListAnySelectable"
+                ]
+            }
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    360,
+                    360
+                ],
+                "end": [
+                    360,
+                    760
+                ],
+                "duration": 1500
+            }
+        },
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaOpenTargetStage",
+            "DailyStaminaScanStageListDown"
+        ],
+        "max_hit": 3
+    },
+    "DailyStaminaStageDetailInitialDecision": {
+        "next": [
+            "DailyStaminaReturnMainWhenLow",
+            "DailyStaminaOpenSweep"
+        ],
+        "timeout": 6000
+    },
+    "DailyStaminaReturnMainWhenLow": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStaminaLow"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    162,
+                    74
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 1200,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaDone"
+        ]
+    },
+    "DailyStaminaOpenSweep": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "军团扫荡"
+                ],
+                "roi": [
+                    500,
+                    1110,
+                    170,
+                    80
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "post_wait_freezes": {
+            "time": 600,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaSweepDialog"
+        ]
+    },
+    "DailyStaminaSweepDialog": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "自动扫荡设置"
+                ],
+                "roi": [
+                    250,
+                    420,
+                    230,
+                    80
+                ]
+            }
+        },
+        "next": [
+            "DailyStaminaClickSweepMax"
+        ],
+        "timeout": 4000,
+        "on_error": [
+            "DailyStaminaManualStartWhenSweepUnavailable",
+            "DailyStaminaReturnMainFromStageDetail"
+        ]
+    },
+    "DailyStaminaClickSweepMax": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "DailyStamina/SweepMaxButton.png",
+                "roi": [
+                    560,
+                    520,
+                    80,
+                    90
+                ],
+                "threshold": 0.7
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaStartSweep"
+        ]
+    },
+    "DailyStaminaStartSweep": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "扫荡开始"
+                ],
+                "roi": [
+                    390,
+                    760,
+                    220,
+                    90
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "post_wait_freezes": {
+            "time": 1200,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "[JumpBack]DailyStaminaConfirmSweepResult",
+            "DailyStaminaAfterSweepDecision"
+        ]
+    },
+    "DailyStaminaConfirmSweepResult": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "跳过",
+                    "完成"
+                ],
+                "roi": [
+                    280,
+                    920,
+                    160,
+                    60
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": true
+            }
+        },
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    },
+    "DailyStaminaAfterSweepDecision": {
+        "next": [
+            "DailyStaminaReturnMainWhenLow",
+            "DailyStaminaManualStartAfterSweep",
+            "DailyStaminaReturnMainFromStageDetail",
+            "DailyStaminaConfirmSweepResult"
+        ],
+        "timeout": 6000
+    },
+    "DailyStaminaManualStartWhenSweepUnavailable": {
+        "enabled": false,
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStaminaEnough"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    360,
+                    1143
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 1200,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaWaitBattleResult"
+        ]
+    },
+    "DailyStaminaManualStartAfterSweep": {
+        "enabled": false,
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStaminaEnough"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    360,
+                    1143
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 1200,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaWaitBattleResult"
+        ]
+    },
+    "DailyStaminaWaitBattleResult": {
+        "next": [
+            "DailyStaminaBattleContinueWhenEnough",
+            "DailyStaminaBattleReturnMapWhenLow",
+            "[JumpBack]CommonWaitLoading",
+            "[JumpBack]DailyStaminaBattleInProgress"
+        ],
+        "timeout": 180000,
+        "on_error": [
+            "DailyStaminaReturnMainFromStageDetail"
+        ]
+    },
+    "DailyStaminaBattleContinueWhenEnough": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "__DailyStaminaBattleResultClear",
+                    "__DailyStaminaAgainChallengeButton",
+                    "DailyStaminaBattleStaminaEnough"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": "__DailyStaminaAgainChallengeButton"
+            }
+        },
+        "post_wait_freezes": {
+            "time": 1200,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "DailyStaminaWaitBattleResult"
+        ]
+    },
+    "DailyStaminaBattleReturnMapWhenLow": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "__DailyStaminaBattleResultClear",
+                    "__DailyStaminaReturnMapButton",
+                    "DailyStaminaBattleStaminaLow"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": "__DailyStaminaReturnMapButton"
+            }
+        },
+        "post_wait_freezes": {
+            "time": 1200,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "DailyStaminaReturnMainFromStageList"
+        ]
+    },
+    "__DailyStaminaBattleResultClear": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "CLEAR",
+                    "获得道具"
+                ],
+                "roi": [
+                    0,
+                    120,
+                    720,
+                    960
+                ]
+            }
+        }
+    },
+    "__DailyStaminaAgainChallengeButton": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "再次挑战"
+                ],
+                "roi": [
+                    180,
+                    1160,
+                    160,
+                    70
+                ]
+            }
+        }
+    },
+    "__DailyStaminaReturnMapButton": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "返回地图"
+                ],
+                "roi": [
+                    390,
+                    1160,
+                    160,
+                    70
+                ]
+            }
+        }
+    },
+    "DailyStaminaBattleStaminaEnough": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStaminaEnough"
+                ]
+            }
+        }
+    },
+    "DailyStaminaBattleStaminaLow": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStaminaLow"
+                ]
+            }
+        }
+    },
+    "DailyStaminaBattleInProgress": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "WAVE",
+                    "TURN"
+                ],
+                "roi": [
+                    0,
+                    40,
+                    160,
+                    120
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 3000,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    },
+    "DailyStaminaReturnMainFromStageDetail": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "stage",
+                    "出现敌人",
+                    "军团扫荡"
+                ],
+                "roi": [
+                    60,
+                    80,
+                    620,
+                    1140
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    162,
+                    74
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 1200,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaDone"
+        ]
+    },
+    "DailyStaminaReturnMainFromStageList": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "DailyStaminaPresetStageListTarget"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    162,
+                    74
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 1200,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "[JumpBack]CommonWaitLoading",
+            "DailyStaminaDone"
+        ]
+    },
+    "DailyStaminaDone": {
+        "next": [
+            "CommonStopOnMainWithRetries"
+        ]
+    }
+}

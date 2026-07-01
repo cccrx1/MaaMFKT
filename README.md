@@ -1,43 +1,74 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
-  <img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/v1/icons/maa-logo_512x512.png" width="256" height="256" />
+  <img alt="MaaMFKT" src="assets/logo.png" width="256" height="256" />
 </p>
 
 <div align="center">
 
-# MaaPracticeBoilerplate
+# MaaMFKT
+
+基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 的「天下布魔」日常自动化助手
 
 </div>
 
-本仓库为 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 所提供的项目模板，开发者可基于此模板直接创建自己的 MaaXXX 项目。
+## 更新日志
 
-> **MaaFramework** 是基于图像识别技术、运用 [MAA](https://github.com/MaaAssistantArknights/MaaAssistantArknights) 开发经验去芜存菁、完全重写的新一代自动化黑盒测试框架。
-> 低代码的同时仍拥有高扩展性，旨在打造一款丰富、领先、且实用的开源库，助力开发者轻松编写出更好的黑盒测试程序，并推广普及。
+### v1.0.0 (2026-06-30)
 
-## 即刻开始
+- 发布第一版
 
-**请不要直接克隆本仓库！你应该通过模板创建自己的项目！**  
+## 安装与使用
 
-请阅读 [如何开发](./docs/zh_cn/develop/how_to_develop.md)。
+1. 下载最新 Release 压缩包并解压
+2. 运行 `DependencySetup_依赖库安装_win.bat` 安装 VC++ Runtime 和 .NET Runtime
+3. **安装 Python 依赖**（Agent 脚本必需，模板不会自动打包）：
+   ```bash
+   pip install MaaFW
+   ```
+4. 运行 `MFAAvalonia.exe`
 
-向本模板仓库提交改动前，请阅读 [PR 规范](./docs/zh_cn/develop/pull_request_guidelines.md)。
+> MaaFramework 需要 Python 环境（≥3.10）。确保 `python` 在系统 PATH 中可用。
 
-## 生态共建
+## 主要功能
 
-MAA 正计划建设为一类项目，而非舟的单一软件。
+- [x] 启动游戏 — 自动处理开屏、公告、签到、礼包弹窗
+- [x] 商城购买 — 交易所 + 协会商店自动购买珍贵物品
+- [x] 领取体力 — 好友体力一键领取
+- [x] 炼金订单 — 收取完成订单 + 交付新订单
+- [x] 每日派遣 — 收回完成队伍 + 按优先级派出闲置队伍
+- [x] 消耗体力（目前只做了冰霜下的残响部分）
+- [x] 调教 — 按次数/点数消耗道具，支持道具范围配置
+- [x] 全境征才 — 4 栏位扫描 + 词条组合最优招募决策
+- [x] 奖励领取 — 每日/每周/每月/个人/活动/协会 6 页签一键领取
+- [ ] 协会奖励领取 — 暂未实现，请手动领取
+- [ ] 各加载界面识别 — 暂未实现，网络不佳时可能出错
 
-若您的项目依赖于 MaaFramework，我们欢迎您将它命名为 MaaXXX, MXA, MAX 等等。当然，这是许可而不是限制，您也可以自由选择其他与 MAA 无关的名字，完全取决于您自己的想法！
+## 已知问题
 
-同时，我们也非常欢迎您提出 PR，在 [社区项目列表](https://github.com/MaaXYZ/MaaFramework#%E7%A4%BE%E5%8C%BA%E9%A1%B9%E7%9B%AE) 中添加上您的项目！
+### 加载界面
 
-## 常见问题
+游戏加载时（Loading / Now Loading / 转场动画）暂无统一识别。网络不佳或服务器响应慢时，任务可能因等待时间不足而在非预期界面出错。**建议在网络良好的环境下使用。** 若任务异常停止，可以返回游戏主界面后重新启动后续任务。
 
-请阅读 [常见问题](./docs/zh_cn/develop/faq.md)。
+### 商城购买
 
-## 鸣谢
+当前仅购买交易所的紧急录用证、初级体力药水、招募命令，以及协会商店的召唤契约、魔晶石、阿克色记录。购买逻辑后续会完善。
 
-本项目由 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** 强力驱动！
+### 消耗体力
 
-感谢以下开发者对本项目作出的贡献（下面链接改成你自己的项目地址）:
+**刷图前必须确保目标关卡已在游戏中解锁（可正常进入）**，否则任务会在关卡列表中无限循环寻找，无法自动退出。
 
-[![Contributors](https://contrib.rocks/image?repo=MaaXYZ/MaaFramework&max=1000)](https://github.com/MaaXYZ/MaaFramework/graphs/contributors)
+### 调教
+
+调教次数设置过多会导致执行缓慢，建议固定少量次数（如 5-10 次）或使用长按。
+
+## 免责声明
+
+- 本项目仅用于节省本人日常重复操作时间，**不保证稳定性**，使用中可能出现未预期的行为。
+- 本项目**不修改游戏内存、不劫持网络通信、不绕过游戏安全机制**，仅模拟屏幕点击操作。
+- 使用本软件产生的任何后果（包括但不限于账号异常、封禁、数据丢失）由使用者自行承担。开发者不对此负责。
+- 如果您认为本项目的公开发布不妥，请通过 GitHub Issues 联系，我会立即处理。
+
+## 致谢
+
+- **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** — 自动化测试框架，真的太强大了
+- **[TKFMtool](https://github.com/BGFFw/TKFMtool.git)** — 全境征才招募决策逻辑参考

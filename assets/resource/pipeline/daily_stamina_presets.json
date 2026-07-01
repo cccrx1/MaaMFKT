@@ -1,0 +1,206 @@
+{
+    "DailyStaminaPresetRouteStart": {
+        "next": [
+            "DailyStaminaRouteActivitySectionStart"
+        ]
+    },
+    "DailyStaminaPresetActivitySection": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "限时活动"
+                ],
+                "roi": [
+                    480,
+                    90,
+                    150,
+                    80
+                ]
+            }
+        }
+    },
+    "DailyStaminaPresetInnerRouteStart": {
+        "next": [
+            "DailyStaminaRouteInnerSpecialUiStart"
+        ]
+    },
+    "DailyStaminaPresetInnerRouteChallengeExample": {
+        "enabled": false,
+        "next": [
+            "DailyStaminaRouteInnerChallengeUiStart"
+        ]
+    },
+    "DailyStaminaPresetRerunMapMarker": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "Story",
+                    "Free Quest"
+                ],
+                "roi": [
+                    0,
+                    160,
+                    720,
+                    1000
+                ]
+            }
+        }
+    },
+    "DailyStaminaPresetActivityName": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "冰霜下的残响"
+                ],
+                "roi": [
+                    70,
+                    770,
+                    580,
+                    60
+                ]
+            }
+        }
+    },
+    "DailyStaminaPresetInnerUiTitle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "冰霜下的残响"
+                ],
+                "roi": [
+                    0,
+                    90,
+                    240,
+                    100
+                ]
+            }
+        }
+    },
+    "DailyStaminaPresetStageEntry": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "DailyStamina/FrostEchoStageIcon.png",
+                "roi": [
+                    400,
+                    880,
+                    250,
+                    270
+                ],
+                "threshold": 0.72
+            }
+        }
+    },
+    "DailyStaminaPresetStageListTargetTitle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "Lv.10 钓鱼-05",
+                    "10钓鱼-05",
+                    "钓鱼-05"
+                ],
+                "roi": [
+                    70,
+                    90,
+                    580,
+                    1000
+                ]
+            }
+        }
+    },
+    "DailyStaminaPresetStageListTargetSubtitle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "鱼儿鱼儿冰中游V"
+                ],
+                "roi": [
+                    70,
+                    90,
+                    580,
+                    1000
+                ]
+            }
+        }
+    },
+    "DailyStaminaPresetStageListTarget": {
+        "recognition": {
+            "type": "Or",
+            "param": {
+                "any_of": [
+                    "DailyStaminaPresetStageListTargetTitle",
+                    "DailyStaminaPresetStageListTargetSubtitle"
+                ]
+            }
+        }
+    },
+    "DailyStaminaPresetStageListAnySelectable": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "钓鱼-01",
+                    "钓鱼-02",
+                    "钓鱼-03",
+                    "钓鱼-04",
+                    "钓鱼-05",
+                    "鱼儿鱼儿冰中游",
+                    "鱼儿鱼儿冰中游I",
+                    "鱼儿鱼儿冰中游Ⅲ",
+                    "鱼儿鱼儿冰中游IV",
+                    "鱼儿鱼儿冰中游V"
+                ],
+                "roi": [
+                    70,
+                    90,
+                    580,
+                    1000
+                ]
+            }
+        }
+    },
+    "DailyStaminaPresetStaminaEnough": {
+        "recognition": {
+            "type": "Custom",
+            "param": {
+                "custom_recognition": "DailyStaminaCompare",
+                "custom_recognition_param": {
+                    "mode": "enough",
+                    "cost": 45,
+                    "reserve": 0,
+                    "stamina_roi": [
+                        500,
+                        0,
+                        180,
+                        45
+                    ]
+                }
+            }
+        }
+    },
+    "DailyStaminaPresetStaminaLow": {
+        "recognition": {
+            "type": "Custom",
+            "param": {
+                "custom_recognition": "DailyStaminaCompare",
+                "custom_recognition_param": {
+                    "mode": "low",
+                    "cost": 45,
+                    "reserve": 0,
+                    "stamina_roi": [
+                        500,
+                        0,
+                        180,
+                        45
+                    ]
+                }
+            }
+        }
+    }
+}
