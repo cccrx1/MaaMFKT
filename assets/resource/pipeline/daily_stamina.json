@@ -226,6 +226,7 @@
         },
         "next": [
             "[JumpBack]CommonWaitLoading",
+            "DailyStaminaCloseStaminaPurchasePopup",
             "DailyStaminaSweepDialog"
         ]
     },
@@ -319,6 +320,7 @@
         },
         "next": [
             "[JumpBack]CommonWaitLoading",
+            "DailyStaminaCloseStaminaPurchasePopup",
             "[JumpBack]DailyStaminaConfirmSweepResult",
             "DailyStaminaAfterSweepDecision"
         ]
@@ -357,6 +359,7 @@
     },
     "DailyStaminaAfterSweepDecision": {
         "next": [
+            "DailyStaminaCloseStaminaPurchasePopup",
             "DailyStaminaReturnMainWhenLow",
             "DailyStaminaManualStartAfterSweep",
             "DailyStaminaReturnMainFromStageDetail",
@@ -673,5 +676,153 @@
         "next": [
             "CommonStopOnMainWithRetries"
         ]
+    },
+    "DailyStaminaCloseStaminaPurchasePopup": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "__DailyStaminaPurchasePopupMarker",
+                    "__DailyStaminaPurchasePopupCancel"
+                ],
+                "box_index": 1
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": "__DailyStaminaPurchasePopupCancel"
+            }
+        },
+        "post_wait_freezes": {
+            "time": 700,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "next": [
+            "DailyStaminaReturnMainFromStageDetail",
+            "DailyStaminaDone"
+        ]
+    },
+    "__DailyStaminaPurchasePopupMarker": {
+        "recognition": {
+            "type": "Or",
+            "param": {
+                "any_of": [
+                    "__DailyStaminaPurchasePopupCurrency",
+                    "__DailyStaminaPurchasePopupMedicine"
+                ]
+            }
+        }
+    },
+    "__DailyStaminaPurchasePopupCurrency": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "__DailyStaminaPurchasePopupCurrencyAsk",
+                    "__DailyStaminaPurchasePopupCurrencyExchange"
+                ]
+            }
+        }
+    },
+    "__DailyStaminaPurchasePopupCurrencyAsk": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "是否消耗"
+                ],
+                "roi": [
+                    120,
+                    620,
+                    480,
+                    220
+                ]
+            }
+        }
+    },
+    "__DailyStaminaPurchasePopupCurrencyExchange": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "兑换",
+                    "兌换"
+                ],
+                "roi": [
+                    120,
+                    620,
+                    480,
+                    220
+                ]
+            }
+        }
+    },
+    "__DailyStaminaPurchasePopupMedicine": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "__DailyStaminaPurchasePopupMedicineItem",
+                    "__DailyStaminaPurchasePopupMedicineAction"
+                ]
+            }
+        }
+    },
+    "__DailyStaminaPurchasePopupMedicineItem": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "体力药"
+                ],
+                "roi": [
+                    120,
+                    520,
+                    480,
+                    300
+                ]
+            }
+        }
+    },
+    "__DailyStaminaPurchasePopupMedicineAction": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "使用",
+                    "回复",
+                    "恢复",
+                    "补充"
+                ],
+                "roi": [
+                    120,
+                    520,
+                    480,
+                    300
+                ]
+            }
+        }
+    },
+    "__DailyStaminaPurchasePopupCancel": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "取消"
+                ],
+                "roi": [
+                    120,
+                    850,
+                    200,
+                    130
+                ]
+            }
+        }
     }
 }

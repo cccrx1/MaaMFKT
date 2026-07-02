@@ -22,7 +22,7 @@
     },
     "DailyStaminaPresetInnerRouteStart": {
         "next": [
-            "DailyStaminaRouteInnerSpecialUiStart"
+            "DailyStaminaRouteInnerRerunUiStart"
         ]
     },
     "DailyStaminaPresetInnerRouteChallengeExample": {
@@ -53,7 +53,7 @@
             "type": "OCR",
             "param": {
                 "expected": [
-                    "冰霜下的残响"
+                    "传说中的魔法少女"
                 ],
                 "roi": [
                     70,
@@ -65,11 +65,12 @@
         }
     },
     "DailyStaminaPresetInnerUiTitle": {
+        "enabled": false,
         "recognition": {
             "type": "OCR",
             "param": {
                 "expected": [
-                    "冰霜下的残响"
+                    "__UNCONFIGURED_INNER_UI_TITLE__"
                 ],
                 "roi": [
                     0,
@@ -81,17 +82,19 @@
         }
     },
     "DailyStaminaPresetStageEntry": {
+        "enabled": false,
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "OCR",
             "param": {
-                "template": "DailyStamina/FrostEchoStageIcon.png",
-                "roi": [
-                    400,
-                    880,
-                    250,
-                    270
+                "expected": [
+                    "__UNCONFIGURED_STAGE_ENTRY__"
                 ],
-                "threshold": 0.72
+                "roi": [
+                    0,
+                    0,
+                    1,
+                    1
+                ]
             }
         }
     },
@@ -100,14 +103,13 @@
             "type": "OCR",
             "param": {
                 "expected": [
-                    "Lv.10 钓鱼-05",
-                    "10钓鱼-05",
-                    "钓鱼-05"
+                    "招募-02",
+                    "招募02"
                 ],
                 "roi": [
-                    70,
-                    90,
-                    580,
+                    0,
+                    160,
+                    720,
                     1000
                 ]
             }
@@ -118,24 +120,30 @@
             "type": "OCR",
             "param": {
                 "expected": [
-                    "鱼儿鱼儿冰中游V"
+                    "__UNCONFIGURED_STAGE_SUBTITLE__"
                 ],
                 "roi": [
-                    70,
-                    90,
-                    580,
-                    1000
+                    0,
+                    0,
+                    1,
+                    1
                 ]
             }
         }
     },
     "DailyStaminaPresetStageListTarget": {
         "recognition": {
-            "type": "Or",
+            "type": "OCR",
             "param": {
-                "any_of": [
-                    "DailyStaminaPresetStageListTargetTitle",
-                    "DailyStaminaPresetStageListTargetSubtitle"
+                "expected": [
+                    "招募-02",
+                    "招募02"
+                ],
+                "roi": [
+                    0,
+                    160,
+                    720,
+                    1000
                 ]
             }
         }
@@ -145,21 +153,13 @@
             "type": "OCR",
             "param": {
                 "expected": [
-                    "钓鱼-01",
-                    "钓鱼-02",
-                    "钓鱼-03",
-                    "钓鱼-04",
-                    "钓鱼-05",
-                    "鱼儿鱼儿冰中游",
-                    "鱼儿鱼儿冰中游I",
-                    "鱼儿鱼儿冰中游Ⅲ",
-                    "鱼儿鱼儿冰中游IV",
-                    "鱼儿鱼儿冰中游V"
+                    "招募-02",
+                    "招募02"
                 ],
                 "roi": [
-                    70,
-                    90,
-                    580,
+                    0,
+                    160,
+                    720,
                     1000
                 ]
             }
@@ -172,7 +172,7 @@
                 "custom_recognition": "DailyStaminaCompare",
                 "custom_recognition_param": {
                     "mode": "enough",
-                    "cost": 45,
+                    "cost": 30,
                     "reserve": 0,
                     "stamina_roi": [
                         500,
@@ -191,7 +191,7 @@
                 "custom_recognition": "DailyStaminaCompare",
                 "custom_recognition_param": {
                     "mode": "low",
-                    "cost": 45,
+                    "cost": 30,
                     "reserve": 0,
                     "stamina_roi": [
                         500,

@@ -66,13 +66,14 @@ DailyStaminaDone → CommonStopOnMainWithRetries
 | `DailyStaminaOpenExpeditionFromMain` | `CommonMainReady` | 点(571,912)出征按钮 |
 | `DailyStaminaPresetRouteStart` | — | next 被 override 改写，指向活动区/复刻区等路由 |
 | `DailyStaminaRouteActivitySectionStart` | OCR「限时活动」roi[480,90,150,80] | 点限时活动标签 |
-| `DailyStaminaPresetActivityName` | OCR 活动名 roi[60,740,260,100]（如「冰霜下的残响」）| 用于确认当前选中的活动；进入按钮仍固定点 `(360,1148)` |
+| `DailyStaminaPresetActivityName` | OCR 活动名 roi[60,740,260,100]（如「传说中的魔法少女」）| 用于确认当前选中的活动；进入按钮仍固定点 `(360,1148)` |
 | `DailyStaminaRouteActivityListSelectSlot1/2/3` | DirectHit | 从 Slot2 开始（跳过最左），依次固定点 `(360,704)` / `(552,704)` / `(168,704)` |
 | `DailyStaminaPresetStageEntry` | TemplateMatch 关卡图标 roi[400,880,250,270] | 活动内特殊 UI 用图标找入口，点击图标并下偏 `(0,25)` |
 | `DailyStaminaOpenTargetStage` | And(目标关卡标题 + 副标题) box_index 0 | 点第一个命中的关卡，max_hit 4 |
 | `DailyStaminaPresetStaminaEnough` | Custom「DailyStaminaCompare」mode: enough | cost/reserve 被 override 改写 |
 | `DailyStaminaClickSweepMax` | TemplateMatch SweepMaxButton.png | 点MAX按钮 |
 | `DailyStaminaConfirmSweepResult` | OCR「扫荡结果/完成」 | 点确认 |
+| `DailyStaminaCloseStaminaPurchasePopup` | And(货币购买或体力药使用 marker + 「取消」按钮) | 扫荡误触进入补充体力界面时统一点取消，避免命中普通扫荡设置 |
 | `DailyStaminaBattleStaminaEnough` | And(DailyStaminaPresetStaminaEnough) | 判断体力够继续刷 |
 | `DailyStaminaManualStartAfterSweep` | enabled: false，And(体力够) | 手动补刷开关（默认关闭） |
 
@@ -106,7 +107,7 @@ DailyStaminaDone → CommonStopOnMainWithRetries
 1. **主界面到出征**：`DailyStaminaOpenExpeditionFromMain` 先用 `CommonMainReady` 确认主界面，再固定点 `(571,912)` 进入出征。
 2. **活动区标签**：`DailyStaminaRouteActivitySectionStart` OCR「限时活动」标签，点击识别框。这里是名称匹配。
 3. **活动列表选择**：`DailyStaminaRouteActivityListEnterSelected` OCR `DailyStaminaPresetActivityName`，ROI `[60,740,260,100]`，确认当前选中活动名；确认后固定点 `(360,1148)` 点击底部「进击」进入活动。当前活动名不匹配时，默认直接跳到 `SelectSlot2`（中间卡片 `(360,704)`）而非 `SelectSlot1`，因为大多数活动不在最左。依次 `SelectSlot2` → `SelectSlot3`，最后才 `SelectSlot1`。每点一次后重新 OCR 当前选中标题。
-4. **活动内特殊 UI 入口**：`DailyStaminaRouteInnerSpecialUiStart` 同时 OCR 活动内标题 `[0,90,240,100]`，并用 `TemplateMatch` 找关卡图标 `DailyStamina/FrostEchoStageIcon.png`，ROI `[400,880,250,270]`。命中后点击图标框并下偏 `(0,25)`。这里不是活动名找入口，而是“标题确认 + 图标识别”。
+4. **活动内特殊 UI 入口**：`DailyStaminaRouteInnerSpecialUiStart` 同时 OCR 活动内标题，并用活动 case 配置的 `DailyStaminaPresetStageEntry` 找关卡入口。命中后点击入口框并下偏 `(0,25)`。这里不是活动名找入口，而是“标题确认 + 入口识别”。
 5. **关卡列表目标关卡**：`DailyStaminaOpenTargetStage` 通过 `DailyStaminaPresetStageListTarget` 找目标关卡，目标是标题 OCR 或副标题 OCR，ROI `[70,90,580,1000]`。找不到时用 `DailyStaminaScanStageListDown/Up` 上下滑动，再继续找。这里是关卡名称/副标题匹配。
 6. **关卡详情页**：体力用 `DailyStaminaCompare` 读 `stamina_roi` `[500,0,180,45]` 判断够不够；够则优先打开「军团扫荡」，不够则返回主界面。
 
@@ -141,6 +142,7 @@ DailyStaminaDone → CommonStopOnMainWithRetries
 ## 边界情况
 
 - 体力不足时 `DailyStaminaReturnMainWhenLow` 直接返回，不进扫荡。
+- 如果体力判断漏判导致误点扫荡并进入补充体力/体力药/货币购买界面，`DailyStaminaCloseStaminaPurchasePopup` 会识别「取消」并关闭弹窗，不自动使用道具或货币。货币界面需同时命中「是否消耗」和「兑换/兌换」；体力药界面需同时命中「体力药」和「使用/回复/恢复/补充」，避免和普通「自动扫荡设置」弹窗串识别。
 - 扫荡弹窗若超时（券不足），走 on_error 到 `ManualStartWhenSweepUnavailable`（若开启手动补刷则打一次）。
 - 手动战斗中识别「WAVE/TURN」等待 3 秒防动画误识别，战斗最长 180s 超时。
 - **已修改 (2026-06-25)**：活动列表寻路 `DailyStaminaRouteActivityListFindSelected` 超时后跳过 Slot1（最左卡片）直接从 Slot2 开始，因为当前活动不在最左的概率更高。
