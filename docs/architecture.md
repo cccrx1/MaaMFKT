@@ -11,7 +11,7 @@ MaaMFKT 由三层组成：**interface.json（配置层）→ Pipeline JSON（状
 ```json
 "controller": [{ "name": "安卓端", "type": "Adb", "display_short_side": 720 }],
 "resource":   [{ "name": "官服", "path": ["./resource"] }],
-"agent":      { "child_exec": "python", "child_args": ["../agent/main.py"] }
+"agent":      { "child_exec": "python", "child_args": ["./agent/main.py"] }
 ```
 
 - `display_short_side: 720` 决定工作分辨率（720×1280 竖屏），所有 ROI / 坐标以此为准。
